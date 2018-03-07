@@ -11,3 +11,4 @@ Allow: /UniChatDemo/hub/
 Allow: /Mys/
 Allow: /Mys/about.html
 Allow: /Mys/challenges.html
+Allow: /TheButton/
