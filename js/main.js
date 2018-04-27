@@ -1,6 +1,6 @@
 window.onload = function() {
 	if (location.search.startsWith("?help=")) {
-		location.href = "/cant-help-you/"+location.search.substring(6);
+		location.href = "/cant-help-you/?reason="+location.search.substring(6);
 	}
 	for (var i = 0; i < new Date().getTime().toString(2).split('').length; i++) {
 		var s = document.createElement("pre");
