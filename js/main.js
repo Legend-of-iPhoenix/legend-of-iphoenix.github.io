@@ -1,4 +1,7 @@
 window.onload = function() {
+	if (location.search.startsWith("?help=")) {
+		location.href = "/cant-help-you/"+location.search.substring(6);
+	}
 	for (var i = 0; i < new Date().getTime().toString(2).split('').length; i++) {
 		var s = document.createElement("pre");
 		s.style = 'height: 10px; width: 10px; float: left;'
