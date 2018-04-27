@@ -1,6 +1,10 @@
 window.onload = function() {
 	if (location.search.startsWith("?help=")) {
-		location.href = "/cant-help-you/?reason="+location.search.substring(6);
+		location.href.replace("/cant-help-you/?reason="+location.search.substring(6));
+	} else {
+		if (location.hash == "#MateoC") {
+			location.href.replace("https://legend-of-iphoenix.github.io/cant-help-you/?reason=3ds");
+		}
 	}
 	for (var i = 0; i < new Date().getTime().toString(2).split('').length; i++) {
 		var s = document.createElement("pre");
