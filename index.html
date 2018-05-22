@@ -32,7 +32,7 @@
       h2 {
         font-weight: normal;
         color: #0AA;
-        margin-top: 2px;
+        margin-top: 10px;
         margin-bottom: 1px;
       }
 
@@ -44,7 +44,8 @@
       }
 
       #projects>p {
-        margin: 2px;
+        width: 90%;
+        margin-bottom: 10px;
       }
 
       .wip {
@@ -56,13 +57,16 @@
       }
 
       .complete {
-        color: #0F0;
+        color: #0F0
       }
-
+      img {
+        display: block;
+      }
     </style>
   </head>
 
   <body>
+    <img src="https://avatars3.githubusercontent.com/u/32944537?s=400" alt="">
     <h1>I'm _iPhoenix_</h1>
     <a name="aboutme" class="anchor"></a>
     <h2>About me</h2>
@@ -89,7 +93,7 @@
           window.onload = x => {
             Object.keys(projects).map(project => {
               var data = projects[project].split("|");
-              document.getElementById("projects").innerHTML += '<p><a class="' + data[0] + '" href="https://github.com/' + data[1] + '">' + project + '</a>: ' + data[2] + ' <em>Status: ' + data[0].toUpperCase() + '</em></p>';
+              document.getElementById("projects").innerHTML += '<p class="project"><a class="' + data[0] + '" href="https://github.com/' + data[1] + '">' + project + '</a>: ' + data[2] + ' <em>Status: ' + data[0].toUpperCase() + '</em></p>';
             });
           }
 
