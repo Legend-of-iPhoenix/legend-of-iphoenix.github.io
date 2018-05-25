@@ -84,16 +84,19 @@
             "PolyJS": "wip|Legend-of-iPhoenix/PolyJS|A fast, lightweight library for drawing 2D polygons to a HTML5 Canvas.",
             "iChat": "wip|Legend-of-iPhoenix/iChat|A highly customizable chat embed for use with Google Firebase.",
             "TheButton": "abandoned|jcgter777/TheButton|A fun king-of-the-hill game for clicking a button.",
-            "cant-help-you": "complete|Legend-of-iPhoenix/cant-help-you|A simple webpage and creator tool to send to people I am not going to help for various customizable reasons.",
-            "ascii-pi": "complete|Legend-of-iPhoenix/ascii-pi|Draws an ASCII art greek letter <em>pi</em> in exactly 360 characters of JavaScript. My first attempt at JavaScript golfing.",
-            "3d-cube": "complete|Legend-of-iPhoenix/3d-cube|A spinning ASCII art cube, in 500 bytes of JavaScript.",
-            "rainbow": "complete|Legend-of-iPhoenix/rainbow|A tiny quine (technically) that draws itself in all of its flashy rainbow glory.",
-            "clock": "complete|Legend-of-iPhoenix/clock|A heavily golfed JavaScript 7-segment display clock. Does not observe timezones."
+            "cant-help-you": "complete|/cant-help-you|A simple webpage and creator tool to send to people I am not going to help for various customizable reasons.",
+            "ascii-pi": "complete|/ascii-pi|Draws an ASCII art greek letter <em>pi</em> in exactly 360 characters of JavaScript. My first attempt at JavaScript golfing.",
+            "3d-cube": "complete|/3d-cube|A spinning ASCII art cube, in 500 bytes of JavaScript.",
+            "rainbow": "complete|/rainbow|A tiny quine (technically) that draws itself in all of its flashy rainbow glory.",
+            "clock": "complete|/clock|A heavily golfed JavaScript 7-segment display clock. Does not observe timezones."
           };
           window.onload = x => {
             Object.keys(projects).map(project => {
               var data = projects[project].split("|");
-              document.getElementById("projects").innerHTML += '<p class="project"><a class="' + data[0] + '" href="https://github.com/' + data[1] + '">' + project + '</a>: ' + data[2] + ' <em>Status: ' + data[0].toUpperCase() + '</em></p>';
+              if (data[1].charAt(0) != "/") {
+                data[1] = "https://github.com/"+data[1]
+              }
+              document.getElementById("projects").innerHTML += '<p class="project"><a class="' + data[0] + '" href="' + data[1] + '">' + project + '</a>: ' + data[2] + ' <em>Status: ' + data[0].toUpperCase() + '</em></p>';
             });
           }
 
