@@ -105,6 +105,7 @@
         "clock": "complete|/clock|A heavily golfed JavaScript 7-segment display clock. Does not observe timezones."
       };
       window.onload = x => {
+        document.getElementById("projects").innerHTML = "";
         Object.keys(projects).map(project => {
           var data = projects[project].split("|");
           if (data[1].charAt(0) != "/") {
