@@ -1,13 +1,9 @@
 User-Agent: *
 Disallow: /Mys/abyss/
 Disallow: /Mys/hints/
+Disallow: /UniChatDemo/
+Disallow: /UniChat/
 Allow: /
-Allow: /UniChatDemo/
-Allow: /UniChatDemo/register/
-Allow: /UniChatDemo/login/
-Allow: /UniChatDemo/about/
-Allow: /UniChatDemo/news/
-Allow: /UniChatDemo/hub/
 Allow: /Mys/
 Allow: /Mys/about.html
 Allow: /Mys/challenges.html
