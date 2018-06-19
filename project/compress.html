@@ -1,0 +1,148 @@
+<!-- The vast majority of this isn't my code, the Clean CSS stuff is Copyright (C) 2017 JakubPawlowicz.com under the MIT license-->
+<!--
+UglifyJS is released under the BSD license:
+
+Copyright 2012-2018 (c) Mihai Bazon <mihai.bazon@gmail.com>
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+
+    * Redistributions of source code must retain the above
+      copyright notice, this list of conditions and the following
+      disclaimer.
+
+    * Redistributions in binary form must reproduce the above
+      copyright notice, this list of conditions and the following
+      disclaimer in the documentation and/or other materials
+      provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER “AS IS” AND ANY
+EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER BE
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY,
+OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR
+TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
+THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+SUCH DAMAGE.
+-->
+<html>
+	<head>
+		<!-- <not my code> -->
+		<script src="https://skalman.github.io/UglifyJS-online/uglify/lib/minify.js"></script>
+		<script src="https://skalman.github.io/UglifyJS-online/uglify/lib/utils.js"></script>
+		<script src="https://skalman.github.io/UglifyJS-online/uglify/lib/ast.js"></script>
+		<script src="https://skalman.github.io/UglifyJS-online/uglify/lib/parse.js"></script>
+		<script src="https://skalman.github.io/UglifyJS-online/uglify/lib/transform.js"></script>
+		<script src="https://skalman.github.io/UglifyJS-online/uglify/lib/scope.js"></script>
+		<script src="https://skalman.github.io/UglifyJS-online/uglify/lib/output.js"></script>
+		<script src="https://skalman.github.io/UglifyJS-online/uglify/lib/compress.js"></script>
+		<script>
+			Optimizer = {
+
+			  start: function () {
+			    this.worker = new Worker('compress.js')
+			    this.worker.onmessage = function (event) {
+			      switch (event.data.command) {
+			        case 'optimized':
+			          Optimizer.oncomplete(event.data.output.styles)
+			      }
+			    }
+			    this.worker.onerror = function (event) {
+			      console.error(event)
+			    }
+			  },
+
+			  initialize: function() {
+			    this.worker.postMessage({
+			      command: 'initialize'
+			    })
+			  },
+
+			  process: function (styles) {
+			    this.worker.postMessage({
+			      command: 'optimize',
+			      id: (new Date().getTime()+1).toString(36),
+			      input: styles,
+			      options: {"options":{"compatibility":"","format":false,"inline":["local"],"rebase":false,"level":{"0":true,"1":{"cleanupCharsets":true,"normalizeUrls":true,"optimizeBackground":true,"optimizeBorderRadius":true,"optimizeFilter":true,"optimizeFontWeight":true,"optimizeOutline":true,"removeEmpty":true,"removeNegativePaddings":true,"removeQuotes":true,"removeWhitespace":true,"replaceMultipleZeros":true,"replaceTimeUnits":true,"replaceZeroUnits":true,"roundingPrecision":"","selectorsSortingMethod":"standard","specialComments":"all","tidyAtRules":true,"tidyBlockScopes":true,"tidySelectors":true},"2":false},"sourceMap":false}}
+			    });
+			  },
+
+			  oncomplete: function (result) { console.log(result) }
+			}
+
+			Optimizer.start();
+			Optimizer.initialize();
+		</script>
+		<script>
+			var options = {parse:{bare_returns:!1,ecma:8,expression:!1,filename:null,html5_comments:!0,shebang:!0,strict:!1,toplevel:null},compress:{arrows:!0,booleans:!0,collapse_vars:!0,comparisons:!0,computed_props:!0,conditionals:!0,dead_code:!0,drop_console:!1,drop_debugger:!0,ecma:5,evaluate:!0,expression:!1,global_defs:{},hoist_funs:!1,hoist_props:!0,hoist_vars:!1,ie8:!1,if_return:!0,inline:!0,join_vars:!0,keep_classnames:!1,keep_fargs:!0,keep_fnames:!1,keep_infinity:!1,loops:!0,negate_iife:!0,passes:1,properties:!0,pure_getters:"strict",pure_funcs:null,reduce_funcs:!0,reduce_vars:!0,sequences:!0,side_effects:!0,switches:!0,top_retain:null,toplevel:!1,typeofs:!0,unsafe:!1,unsafe_arrows:!1,unsafe_comps:!1,unsafe_Function:!1,unsafe_math:!1,unsafe_methods:!1,unsafe_proto:!1,unsafe_regexp:!1,unsafe_undefined:!1,unused:!0,warnings:!1},mangle:{eval:!1,ie8:!1,keep_classnames:!1,keep_fnames:!1,properties:!1,reserved:[],safari10:!1,toplevel:!1},output:{ascii_only:!1,beautify:!1,bracketize:!1,comments:/@license|@preserve|^!/,ecma:5,ie8:!1,indent_level:4,indent_start:0,inline_script:!0,keep_quoted_props:!1,max_line_len:!1,preamble:null,preserve_line:!1,quote_keys:!1,quote_style:0,safari10:!1,semicolons:!0,shebang:!0,source_map:null,webkit:!1,width:80,wrap_iife:!1},wrap:!1};
+			var html = js = css = ""
+			window.onload = x => {
+			  ["html", "js", "css"].forEach(filetype => {
+			    document.getElementById('input-file-' + filetype).addEventListener('change', getFile);
+			  })
+			}
+
+			function getFile(event) {
+			  console.log("getFile");
+			  const input = event.target
+			  if ('files' in input && input.files.length > 0) {
+			    placeFileContent(input.files[0]);
+			  }
+			}
+
+			function setVariable(content) {
+			  console.log(content.substring(0, 5).split('').map(x=>x.charCodeAt(0).toString(16)));
+			  if (content.startsWith("<!-- html -->")) {
+			      html = content;
+			    }
+			    if (content.startsWith("// js")) {
+			      js = content;
+			    }
+			    if (content.startsWith("/* css */")) {
+			      css = content;
+			    }
+			  if (html != '' && js != '' && css != '') {
+			  	js = minify(js, options);
+			  	if (js.error) {
+			  		throw js.error;
+			  	}
+			  	js = js.code || '';
+			  	Optimizer.oncomplete = function(css) {
+			  		document.getElementById('result').value = html.replace(/\<link rel=[\'\"]stylesheet[\'\"] href=[^\>]+\>/i, "<style>\n"+css+"\n</style\>").replace(/\<script src=[\"\']\w+\.js[\"\']\>\<\/script\>/i, "\<script>\n"+js+"\n\</script\>");
+			  	}
+			  }
+			}
+
+			function placeFileContent(file) {
+			  console.log("placeFileContent")
+			  readFileContent(file).then(setVariable).catch(error => console.log(error))
+			}
+
+			function readFileContent(file) {
+			  const reader = new FileReader()
+			  return new Promise((resolve, reject) => {
+			    reader.onload = event => resolve(event.target.result)
+			    reader.onerror = error => reject(error)
+			    reader.readAsText(file)
+			  })
+			}
+		</script>
+	</head>
+	<body>
+		<div>
+	  	<label for="input-file-html">HTML</label><br>
+		  <input type="file" id="input-file-html"><br>
+		  <label for="input-file-js">JS</label><br>
+		  <input type="file" id="input-file-js"><br>
+		  <label for="input-file-css">CSS</label><br>
+		  <input type="file" id="input-file-css"><br>
+		</div>
+
+		<textarea id="result"></textarea>
+	</body>
+</html>
