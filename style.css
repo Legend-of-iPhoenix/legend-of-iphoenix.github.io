@@ -1,0 +1,79 @@
+/* css */
+/* the goal here is to make it look like we are in a markdown editor, with the #'s for the headings, *'s for the italics, and -'s for the list items. 
+   I don't want the emphasis on them, usually, so I usually make them #aaa, a dark-ish grey. On the headings, it just looks weird, so I don't do it there. */
+* {
+  margin: 0 auto;
+  width: fit-content;
+  color: #fff;
+  font-family: 'Ubuntu Mono', monospace;
+}
+
+body {
+  background-color: #000;
+}
+
+h1,
+h2 {
+  font-weight: normal;
+  color: #0aa;
+  margin-top: 10px;
+  margin-bottom: 1px;
+}
+
+h2::before {
+  content: "##";
+  position: relative;
+  right: 5px;
+}
+
+h1::before {
+  content: "#";
+  position: relative;
+  right: 5px;
+}
+
+em::before,
+em::after {
+  content: "*";
+  color: #aaa;
+}
+
+ul {
+  width: 80%;
+  margin-top: 20px;
+  list-style-type: none; /* fallback for chrome/ie/etc */
+  list-style-type: '\200b'; /* zero width space, because we want to hide it, but apparently some screen readers will say that it is not a list if we use "none" */
+                            /* https://developer.mozilla.org/en-US/docs/Web/CSS/list-style-type#Accessibility_concerns */
+}
+
+ul > li::before {
+  content: '-';
+  color: #aaa;
+  position: relative;
+  right: 16px;
+}
+
+a:visited {
+  color: #ccc;
+}
+
+.project {
+  width: 90%;
+  margin-bottom: 10px;
+}
+
+a.wip { /* I have to use the 'a' here to increase rule specificity, otherwise the a:visited takes precedence, and it looks weird */
+  color: #ff0;
+}
+
+a.abandoned {
+  color: #f00;
+}
+
+a.complete {
+  color: #0f0;
+}
+
+img {
+  display: block;
+}
