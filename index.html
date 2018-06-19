@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="author" content="_iPhoenix_" />
     <meta name="description" content="_iPhoenix_'s main site." />
-    
+
     <!-- Google Analytics :) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-109579764-3"></script>
     <script>
@@ -15,12 +15,14 @@
         dataLayer.push(arguments)
       }
       gtag("js", new Date), gtag("config", "UA-109579764-3")
-
     </script>
     <meta name="google-site-verification" content="ZsgMIexS5rrxOICB8RwSwdrZtuzgz2DFZ51cBwtKcWU" />
     <title>About _iPhoenix_</title>
     <link href="https://fonts.googleapis.com/css?family=Ubuntu+Mono" rel="stylesheet">
+    <base target="_blank"> <!-- open links in new tab -->
     <style>
+      /* the goal here is to make it look like we are in a markdown editor, with the #'s for the headings, *'s for the italics, and -'s for the list items. 
+         I don't want the emphasis on them, usually, so I usually make them #aaa, a dark-ish grey. On the headings, it just looks weird, so I don't do it there. */
       * {
         margin: 0 auto;
         width: fit-content;
@@ -35,7 +37,7 @@
       h1,
       h2 {
         font-weight: normal;
-        color: #0AA;
+        color: #0aa;
         margin-top: 10px;
         margin-bottom: 1px;
       }
@@ -45,33 +47,55 @@
         position: relative;
         right: 5px;
       }
+
       h1::before {
         content: "#";
         position: relative;
         right: 5px;
       }
-      em::before, em::after {
+
+      em::before,
+      em::after {
         content: "*";
-        color: #AAA;
+        color: #aaa;
       }
 
-      #projects > p, #calcProjects > p {
+      ul {
+        width: 80%;
+        margin-top: 20px;
+        list-style-type: none; /* fallback for chrome/ie/etc */
+        list-style-type: '\200b'; /* zero width space, because we want to hide it, but apparently some screen readers will say that it is not a list if we use "none" */
+                                  /* https://developer.mozilla.org/en-US/docs/Web/CSS/list-style-type#Accessibility_concerns */
+      }
+
+      ul > li::before {
+        content: '-';
+        color: #aaa;
+        position: relative;
+        right: 16px;
+      }
+
+      a[href]:visited { /* only select links that redirect and we have visted */
+        color: #ccc;
+      }
+
+      .project {
         width: 90%;
         margin-bottom: 10px;
       }
 
-      .wip {
-        color: #FF0;
+      a[href].wip { /* I have to use the a[href] here to increase rule specificity, otherwise the a[href]:visited takes precedence, and it looks weird */
+        color: #ff0;
       }
 
-      .abandoned {
-        color: #F00;
+      a[href].abandoned {
+        color: #f00;
       }
 
-      .complete {
-        color: #0F0
+      a[href].complete {
+        color: #0f0;
       }
-      
+
       img {
         display: block;
       }
@@ -81,26 +105,31 @@
   <body>
     <img src="https://avatars3.githubusercontent.com/u/32944537?s=400" alt="">
     <h1>I'm _iPhoenix_</h1>
+
     <a name="aboutme"></a>
     <h2>About me</h2>
     <p> I am a programmer based within the US. I enjoy code golfing, JavaScript, art, music and more. </p>
+
     <a name="contact"></a>
     <h2>Contact</h2>
-    <p> I have a <a href=https://www.cemetech.net/forum/profile.php?mode=viewprofile&u=17249>Cemetech Account</a> where I post some of my projects, and I even have a <a href="https://codewalr.us/index.php?action=profile;u=4108">Codewalrus Account</a>, even though you might not be able to see it without an acount of your own.</p>
+    <p> I have a <a href=https://www.cemetech.net/forum/profile.php?mode=viewprofile&u=17249>Cemetech Account</a>, where I post some of my projects, and I even have a <a href="https://codewalr.us/index.php?action=profile;u=4108">Codewalrus Account</a>, even though you might not be able to see it without an acount of your own.</p>
     <p> You can check out my GitHub account <a href="https://github.com/Legend-of-iPhoenix/">here</a>, and my StackOverflow account can be viewed <a href="https://stackoverflow.com/users/8255019/iphoenix">here</a>.</p>
+
     <a name="projects"></a>
     <h2>Projects</h2>
-    <div id="projects">
-      <p> Loading, please wait! </p>
-      <p> If this message persists, reload the page and check that JavaScript is enabled. </p>
-    </div>
+    <ul id="projects">
+      <li> Loading, please wait! </li>
+      <li> If this message persists, reload the page and check that JavaScript is enabled. </li>
+    </ul>
+
     <a name="calcprojects"></a>
     <h2>TI-84+CE Projects</h2>
-    <p> I own a TI-84+CE and I program it in TI-BASIC from time to time. All of the project links lead to pages where you can download them! As always, check the README.txt files in the downloads for more info. This is a list of my favorites, but there are more in my Cemetech profile, linked above. </p>
-    <div id="calcProjects">
-      <p> Loading, please wait! </p>
-      <p> If this message persists, reload the page and check that JavaScript is enabled. </p>
-    </div>
+    <p> I own a TI-84+CE and I program it in TI-BASIC from time to time. All of the project links lead to pages where you can download them! </p>
+    <p> As always, check the README.txt files in the downloads for more info. This is a list of my favorites, but there are more in my Cemetech profile, linked above. </p>
+    <ul id="calcProjects">
+      <li> Loading, please wait! </li>
+      <li> If this message persists, reload the page and check that JavaScript is enabled. </li>
+    </ul>
     <script>
       // "project_name": "status|link|description"
       // status is one of "wip", "abandoned", "complete"
@@ -118,12 +147,13 @@
         "rainbow": "complete|/rainbow|A tiny near-miss quine that draws itself in all of its flashy rainbow glory.",
         "clock": "complete|/clock|A heavily golfed JavaScript 7-segment display clock. Does not observe timezones."
       };
+
       // "project_name": "status|link|description"
       // status is the same as other project type (see above)
       // link is the number in the http://ceme.tech/DL<num> download page shortlink.
       var calcProjects = {
         "Procrastinate": "complete|1747|A game about homework and essays. Features an advanced Google Docs and Sublime Text mockup. Recieved first place in Cemetech Contest 21!",
-        "Plane Mania": "complete|1619|Quite possibly my most complex game ever. Simulates how it feels owning a small airline, where you buy planes, access to airports, adjust profits, fix planes, and much more. I made a demo vide, <a href='https://youtu.be/Iy6PLCyRo6k'>check it out</a>! Part of my Cemetech Contest 20 entry, which recieved an honorable mention.",
+        "Plane Mania": "complete|1619|Quite possibly my most complex game ever. Simulates how it feels owning a small airline, where you buy planes, access to airports, adjust profits, fix planes, and much more. I made a demo video, <a href='https://youtu.be/Iy6PLCyRo6k'>check it out</a>! Part of my Cemetech Contest 20 entry, which recieved an honorable mention.",
         "World of Yum": "complete|1608|A fun game about eating fish food and avoiding toxic pollutants! Features customizable fish, a high scores table, and more! Part of my Cemetech Contest 20 entry.",
         "Adventures of JETMAN": "complete|1652|Fly around the screen collecting squares! Includes a highscores table and an advanced movement system.",
         "CalcType": "complete|1639|A typing speed test for the TI-84+CE calculators",
@@ -135,20 +165,21 @@
       window.onload = x => {
         document.getElementById("projects").innerHTML = "";
         document.getElementById("calcProjects").innerHTML = "";
-        
+
         Object.keys(projects).map(project => {
           var data = projects[project].split("|");
           if (data[1].charAt(0) != "/") {
-            data[1] = "https://github.com/"+data[1]
+            data[1] = "https://github.com/" + data[1]
           }
-          document.getElementById("projects").innerHTML += '<p class="project"><a class="' + data[0] + '" href="' + data[1] + '">' + project + '</a>: ' + data[2] + ' <em>Status: ' + data[0].toUpperCase() + '</em></p>';
+          document.getElementById("projects").innerHTML += '<li class="project"><a class="' + data[0] + '" href="' + data[1] + '">' + project + '</a>: ' + data[2] + ' <em>Status: ' + data[0].toUpperCase() + '</em></li>';
         });
         Object.keys(calcProjects).map(calcProject => {
           var data = calcProjects[calcProject].split("|");
-          document.getElementById("calcProjects").innerHTML += '<p class="project"><a class="' + data[0] + '" href="http://ceme.tech/DL' + data[1] + '">' + calcProject + '</a>: ' + data[2] + ' <em>Status: ' + data[0].toUpperCase() + '</em></p>';
+          document.getElementById("calcProjects").innerHTML += '<li class="project"><a class="' + data[0] + '" href="http://ceme.tech/DL' + data[1] + '">' + calcProject + '</a>: ' + data[2] + ' <em>Status: ' + data[0].toUpperCase() + '</em></li>';
         });
       }
     </script>
     <a href="https://codewalr.us"><img src="https://codewalr.us/other/cwaffiliate.png" /></a>
   </body>
+
 </html>
