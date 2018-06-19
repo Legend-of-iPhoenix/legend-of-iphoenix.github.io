@@ -4,8 +4,8 @@
     <script>
       var html = js = css = ""
       window.onload = x => {
-        [1, 2, 3].forEach(filetype => {
-          document.getElementById('input-file-' + filetype).addEventListener('change', getFile);
+        [1, 2, 3].forEach(id => {
+          document.getElementById(id).addEventListener('change', getFile);
         })
       }
 
