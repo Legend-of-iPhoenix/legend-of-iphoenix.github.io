@@ -1,4 +1,5 @@
 // js
+console.log("interested in looking behind the scenes? check out the source code on github: https://github.com/Legend-of-iPhoenix/legend-of-iphoenix.github.io/tree/master/src");
 window.dataLayer = window.dataLayer || [];
 
 function gtag() {
@@ -11,6 +12,7 @@ gtag("config", "UA-109579764-3")
 // if link starts with '/', it is a relative path, otherwise it is a github repo.
 // description is raw html that is shown to the user.
 var projects = {
+  "Village": "wip|/Village|An esoteric programming language where you are a forgetful village chief that has to write everything down.",
   "PolyJS": "wip|Legend-of-iPhoenix/PolyJS|A fast, lightweight library for drawing 2D polygons to a HTML5 Canvas.",
   "iChat": "wip|Legend-of-iPhoenix/iChat|A bare-bones, highly customizable chat embed for use with Google Firebase.",
   "markdown-bbcode-html": "wip|/markdown-bbcode-html|A tool to convert basic Markdown into BBCode and HTML.",
