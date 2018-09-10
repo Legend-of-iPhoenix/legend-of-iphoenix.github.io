@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>404</title>
+  <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script><script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-109579764-3"></script><script>function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","UA-109579764-3");</script>
+  <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+  <style type="text/css">
+    canvas {
+      width: 100%;
+      height: 50vh;
+      margin: 0;
+    }
+
+    h1, h2, p {
+      margin: 0 auto;
+      width: fit-content;
+      font-family: 'Inconsolata', monospace;
+    }
+  </style>
+</head>
+<body>
+  <h1> 404: Page not found :( </h1>
+  <h1> It looks like you took a wrong turn. </h1>
+  <h2> This page doesn't exist. </h2>
+  <p> Maybe this will help? (click the 404 sign)</p>
+  <p> &lt;-- <a href="legend-of-iphoenix.github.io">Back</a> </p>
+  <canvas id="404_canvas"></canvas>
+  <script>
+    var locked = false;
+    var canvas = document.getElementById("404_canvas");
+    var context = canvas.getContext('2d')
+
+    canvas.width = canvas.clientWidth
+    canvas.height = canvas.clientHeight
+
+    var n = canvas.width/10
+    context.textAlign = "center"
+    context.font = ((canvas.width - 2*n)/3) +"px 'Inconsolata', monospace"
+    context.textBaseline = "middle"
+    context.fillText("404", canvas.width/2, canvas.height/2)
+
+    var chunks = [];
+
+    function getColor(t) {
+      t = Math.floor(t*100)/100
+      var colorStart = [215,0,0]
+      var colorEnd = [255, 204, 0]
+      return 'rgb('+colorStart.map((x,i)=>Math.floor(x*(1-t)+colorEnd[i]*t)).join(',')+')'
+    }
+
+    var definition = Math.min(canvas.width,canvas.height)/120
+
+    for (var i = 0; i < canvas.width / definition; i++) {
+      for (var j = 0; j < canvas.height / definition; j++) {
+        var chunk = context.getImageData(definition*i, definition*j, definition, definition)
+        if (chunk.data.some(x=>x)) {
+          chunks.push([definition*i+(Math.floor(definition*Math.random())-definition/2), definition*j+(Math.floor(definition*Math.random())-definition/2), getColor(Math.random()),canvas.width**2+canvas.height**2])
+        }
+      }
+    }
+    function draw(chunks) {
+      context.clearRect(0,0,canvas.width,canvas.height)
+      chunks.map(x=>{context.beginPath(); context.fillStyle = x[2]; context.arc(x[0],x[1],2,0,2*Math.PI); context.fill(); context.closePath()})
+    }
+
+    draw(chunks)
+
+    canvas.onclick = function (event) {
+      if (!locked) {
+        locked = true;
+        implode(event.offsetX, event.offsetY, 0)
+      }
+    }
+
+    function implode(x,y,t) {
+       //var n = -1-2*t
+        draw(chunks = chunks.map(chunk=>{
+          var distance = (chunk[0]-x)**2+(chunk[1]-y)**2
+          var speed = canvas.width/distance
+          if (speed > (canvas.width/(canvas.width/10))||distance>chunk[3]) {
+            return null
+          }
+          var n = .5*speed*t;
+          return [(1-n)*chunk[0]+x*n,(1-n)*chunk[1]+y*n,chunk[2],distance]
+        }).filter(x=>x));
+        if (chunks.length) {
+          setTimeout(implode,12,x,y,t+.005)
+        }
+    }
+
+  </script>
+</body>
+</html>
