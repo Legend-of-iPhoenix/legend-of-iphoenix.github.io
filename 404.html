@@ -29,20 +29,35 @@ permalink: /404.html
   <p> &lt;-- <a href="legend-of-iphoenix.github.io">Back</a> </p>
   <canvas id="404_canvas"></canvas>
   <script>
-    var locked = false;
+    var locked = true;
     var canvas = document.getElementById("404_canvas");
     var context = canvas.getContext('2d')
+    var definition = 0;
+    var chunks = []
+    
+    window.onload = function () {
 
-    canvas.width = canvas.clientWidth
-    canvas.height = canvas.clientHeight
+      canvas.width = canvas.clientWidth
+      canvas.height = canvas.clientHeight
 
-    var n = canvas.width/10
-    context.textAlign = "center"
-    context.font = ((canvas.width - 2*n)/3) +"px 'Inconsolata', monospace"
-    context.textBaseline = "middle"
-    context.fillText("404", canvas.width/2, canvas.height/2)
-
-    var chunks = [];
+      var n = canvas.width/10
+      context.textAlign = "center"
+      context.font = ((canvas.width - 2*n)/3) +"px 'Inconsolata', monospace"
+      context.textBaseline = "middle"
+      context.fillText("404", canvas.width/2, canvas.height/2)
+      definition = Math.min(canvas.width,canvas.height)/120
+      for (var i = 0; i < canvas.width / definition; i++) {
+        for (var j = 0; j < canvas.height / definition; j++) {
+          var chunk = context.getImageData(definition*i, definition*j, definition, definition)
+          if (chunk.data.some(x=>x)) {
+            chunks.push([definition*i+(Math.floor(definition*Math.random())-definition/2), definition*j+(Math.floor(definition*Math.random())-definition/2), getColor(Math.random()),canvas.width**2+canvas.height**2])
+          }
+        }
+      }
+      draw(chunks)
+      
+      locked = false;
+    }
 
     function getColor(t) {
       t = Math.floor(t*100)/100
@@ -50,23 +65,11 @@ permalink: /404.html
       var colorEnd = [255, 204, 0]
       return 'rgb('+colorStart.map((x,i)=>Math.floor(x*(1-t)+colorEnd[i]*t)).join(',')+')'
     }
-
-    var definition = Math.min(canvas.width,canvas.height)/120
-
-    for (var i = 0; i < canvas.width / definition; i++) {
-      for (var j = 0; j < canvas.height / definition; j++) {
-        var chunk = context.getImageData(definition*i, definition*j, definition, definition)
-        if (chunk.data.some(x=>x)) {
-          chunks.push([definition*i+(Math.floor(definition*Math.random())-definition/2), definition*j+(Math.floor(definition*Math.random())-definition/2), getColor(Math.random()),canvas.width**2+canvas.height**2])
-        }
-      }
-    }
+    
     function draw(chunks) {
       context.clearRect(0,0,canvas.width,canvas.height)
       chunks.map(x=>{context.beginPath(); context.fillStyle = x[2]; context.arc(x[0],x[1],2,0,2*Math.PI); context.fill(); context.closePath()})
     }
-
-    draw(chunks)
 
     canvas.onclick = function (event) {
       if (!locked) {
