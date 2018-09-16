@@ -3,6 +3,8 @@ Disallow: /Mys/abyss/
 Disallow: /Mys/hints/
 Disallow: /UniChatDemo/
 Disallow: /UniChat/
+Disallow: /meme.html/
+Disallow: /project/
 Allow: /
 Allow: /Mys/
 Allow: /Mys/about.html
